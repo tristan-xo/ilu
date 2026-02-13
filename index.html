@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>❤️ A Question ❤️</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: "Helvetica", sans-serif;
+    overflow: hidden;
+}
+
+/* Romantic background */
+body {
+    background: linear-gradient(180deg, #ffd1dc, #ff9eb5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main container */
+#app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+}
+
+/* Question text */
+#question {
+    margin-top: 20vh;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #8b004f;
+    padding: 0 20px;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 12vh;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    color: white;
+}
+
+#yesBtn {
+    background: #ff4f9a;
+}
+
+#noBtn {
+    background: #f58ab1;
+}
+
+/* Valentine message */
+#valentine {
+    display: none;
+    margin-top: 35vh;
+}
+
+#valentine h1 {
+    font-size: 2.6rem;
+    color: #ff2f7d;
+    animation: glow 1.5s infinite alternate;
+}
+
+#valentine p {
+    font-size: 1.2rem;
+    color: #8b004f;
+}
+
+/* Glow animation */
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #ff9eb5;
+    }
+    to {
+        text-shadow: 0 0 20px #ff2f7d;
+    }
+}
+
+/* Hearts */
+.heart {
+    position: absolute;
+    bottom: -40px;
+    font-size: 24px;
+    animation: floatUp linear forwards;
+}
+
+/* Confetti */
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* Floating animation */
+@keyframes floatUp {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-110vh) scale(1.4);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+    <div id="question">Will you accept my love?</div>
+
+    <div class="buttons" id="buttons">
+        <button id="yesBtn">YES ❤️</button>
+        <button id="noBtn">NO 💔</button>
+    </div>
+
+    <div id="valentine">
+        <h1>Happy Valentine 💖</h1>
+        <p>You just made my heart smile ❤️</p>
+    </div>
+</div>
+
+<!-- Romantic Music -->
+<audio id="bgm" loop>
+    <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const buttons = document.getElementById("buttons");
+const valentine = document.getElementById("valentine");
+const bgm = document.getElementById("bgm");
+
+/* Mobile autoplay fix */
+document.body.addEventListener("click", () => {
+    bgm.volume = 0.4;
+    bgm.play().catch(() => {});
+}, { once: true });
+
+/* NO button logic */
+noBtn.onclick = () => {
+    noBtn.style.display = "none";
+    buttons.style.justifyContent = "center";
+};
+
+/* YES button logic */
+yesBtn.onclick = () => {
+    buttons.style.display = "none";
+    document.getElementById("question").style.display = "none";
+    valentine.style.display = "block";
+
+    startHearts();
+    startConfetti();
+};
+
+/* Hearts */
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (20 + Math.random() * 20) + "px";
+        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+        document.body.appendChild(heart);
+
+        // vibration
+        let shake = 0;
+        const vibrate = setInterval(() => {
+            heart.style.transform = `translateX(${Math.sin(shake) * 5}px)`;
+            shake += 0.3;
+        }, 50);
+
+        setTimeout(() => {
+            clearInterval(vibrate);
+            heart.remove();
+        }, 7000);
+    }, 300);
+}
+
+/* Confetti */
+function startConfetti() {
+    setInterval(() => {
+        const conf = document.createElement("div");
+        conf.className = "confetti";
+        conf.style.left = Math.random() * 100 + "vw";
+        conf.style.top = "-10px";
+        conf.style.background = ["#ff4f9a", "#ffd1dc", "#ff2f7d"][Math.floor(Math.random() * 3)];
+        conf.style.animation = `floatUp ${3 + Math.random() * 2}s linear forwards`;
+
+        document.body.appendChild(conf);
+
+        setTimeout(() => conf.remove(), 5000);
+    }, 150);
+}
+</script>
+
+</body>
+</html>
