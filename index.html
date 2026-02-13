@@ -84,12 +84,8 @@ button {
 
 /* Glow animation */
 @keyframes glow {
-    from {
-        text-shadow: 0 0 5px #ff9eb5;
-    }
-    to {
-        text-shadow: 0 0 20px #ff2f7d;
-    }
+    from { text-shadow: 0 0 5px #ff9eb5; }
+    to   { text-shadow: 0 0 20px #ff2f7d; }
 }
 
 /* Hearts */
@@ -138,7 +134,7 @@ button {
     </div>
 </div>
 
-<!-- Romantic Music -->
+<!-- Romantic Music (plays on YES only) -->
 <audio id="bgm" loop>
     <source src="romantic.mp3" type="audio/mpeg">
 </audio>
@@ -150,20 +146,17 @@ const buttons = document.getElementById("buttons");
 const valentine = document.getElementById("valentine");
 const bgm = document.getElementById("bgm");
 
-/* Mobile autoplay fix */
-document.body.addEventListener("click", () => {
-    bgm.volume = 0.4;
-    bgm.play().catch(() => {});
-}, { once: true });
-
 /* NO button logic */
 noBtn.onclick = () => {
     noBtn.style.display = "none";
     buttons.style.justifyContent = "center";
 };
 
-/* YES button logic */
+/* YES button logic (music starts here) */
 yesBtn.onclick = () => {
+    bgm.volume = 0.4;
+    bgm.play().catch(() => {});
+
     buttons.style.display = "none";
     document.getElementById("question").style.display = "none";
     valentine.style.display = "block";
@@ -184,7 +177,6 @@ function startHearts() {
 
         document.body.appendChild(heart);
 
-        // vibration
         let shake = 0;
         const vibrate = setInterval(() => {
             heart.style.transform = `translateX(${Math.sin(shake) * 5}px)`;
@@ -205,11 +197,11 @@ function startConfetti() {
         conf.className = "confetti";
         conf.style.left = Math.random() * 100 + "vw";
         conf.style.top = "-10px";
-        conf.style.background = ["#ff4f9a", "#ffd1dc", "#ff2f7d"][Math.floor(Math.random() * 3)];
+        conf.style.background =
+            ["#ff4f9a", "#ffd1dc", "#ff2f7d"][Math.floor(Math.random() * 3)];
         conf.style.animation = `floatUp ${3 + Math.random() * 2}s linear forwards`;
 
         document.body.appendChild(conf);
-
         setTimeout(() => conf.remove(), 5000);
     }, 150);
 }
